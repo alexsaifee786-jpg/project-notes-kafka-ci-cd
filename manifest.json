@@ -8,8 +8,8 @@
   "runtime_tests_rerun": false,
   "files": {
     "Kafka_Order_Platform_Interview_Notes.pdf": "ce999823a1c67d1eff763d8e600434f1ae16281c0dd4a3cda7ed2cc80eb7289b",
-    "README.md": "22952615833f049a71f69d6526ee3b50ccb5b59b50984621d73a158ab9326f72",
-    "REVIEW.md": "1ee3f663796b627e1dd05c5e3f7698635c193911932d549dcc7d688cee3ac5cd",
+    "README.md": "285d3d41aa27144fca43b5728e180c8120ebe88cbd01bc13aa8a04131289195b",
+    "REVIEW.md": "c2aa225e5d100c99493f30b42727bbf5d487a8300780c6edc27b55fdaf2612a1",
     "chapters/Chapter_01_Project_Overview_Architecture.pdf": "b6cad8b8a3395454390f8b5ffb0f841f98999f2e7483970306d63a6f045c60a9",
     "chapters/Chapter_02_Kafka_Cluster_Topics_Partitions.pdf": "697ad81847949f0d7254340a732245aed750e89062554b7fffa0ea1794cf60bf",
     "chapters/Chapter_03_Order_Transactional_Outbox.pdf": "b41a456be8757d61f2c0292ea44172674ca34c09902c49d03f3673c5cd6348a5",
@@ -43,6 +43,18 @@
     "notes/14-GitHub_Webhook_Ngrok_Trigger.md": "468b71b0c49ff533727f1d2456e0edb174fefd875c72faa8da589531d7afbd47",
     "notes/15-Secrets_Configuration_Boundaries.md": "34981c0a29edefcf066ba6afe04e42cab679c6ee777d60762b9cfb8b1acc6106",
     "notes/16-Testing_Verification_Evidence.md": "3acb4f5d71a38c9d07280fdb493d87853ce16d6decf72cf01b15c0965ada20a7",
-    "notes/17-Local_Demo_Interview_Walkthrough.md": "701a6ac667f9aa02f51c4015128cb931bbcff924867415101cc5ab3a306387f9"
+    "notes/17-Local_Demo_Interview_Walkthrough.md": "701a6ac667f9aa02f51c4015128cb931bbcff924867415101cc5ab3a306387f9",
+    "assets/order-flow/Kafka_Order_Platform_Interactive_Flow.html": "75fc57ccc27bf11761ec73e35232c2298cba9a65230085e7227517173efc6ff9",
+    "assets/order-flow/order-database-flow.png": "fb5657a132472a14f376e4bd5acec5529a408f08c0e52d64d1225f79cc3ef31d",
+    "assets/order-flow/order-database-flow.svg": "08d10255bee0619083f9bec8280a47afd2f6f6b1452594f84316fcf8cc9cabff",
+    "notes/Visual_Order_Database_Flow.md": "c72ad9b0b2cfcf86700525675ad6670f054adcee917306b9fc660b2a0684c2fa"
+  },
+  "visual_supplement": {
+    "added": "2026-10-15",
+    "guide": "notes/Visual_Order_Database_Flow.md",
+    "interactive_html": "assets/order-flow/Kafka_Order_Platform_Interactive_Flow.html",
+    "illustrative_data": true,
+    "backend_runtime_tests_rerun": false,
+    "pdf_edition": "2026-09-29"
   }
 }

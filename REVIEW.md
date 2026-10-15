@@ -25,3 +25,13 @@ All 17 chapters were prepared sequentially. No application code or runtime was c
 Chapter 01–02 PDFs contain two pages each; Chapters 03–17 contain one focused revision page each. The compiled edition adds a one-page index.
 
 Repository publication is tracked separately from note completion. A source review is not proof of a passing runtime.
+
+## Visual flow supplement · 15 October 2026
+
+Added an illustrated guide, a standalone interactive HTML replay, and PNG/SVG snapshots. This supplement connects Chapters 03, 04, 07 and 17; the existing 17-chapter PDF edition remains the September edition.
+
+- Transaction boundaries, topic names, event correlation and table roles were checked against the implementation and the existing chapters.
+- Order 31, starting stock 100, quantity 2, and the short O31/R31 event labels are an illustrative learning replay. They are not a current database export.
+- The seven diagram states and previous/next controls were checked with a DOM harness at widths 1024, 736, 375 and 320. SVG snapshots were rendered and visually inspected.
+- The standalone file contains its required styles and scripts. This review did not run a new backend request or a full browser end-to-end test.
+

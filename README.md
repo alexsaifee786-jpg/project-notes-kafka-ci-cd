@@ -6,6 +6,12 @@ Production-style interview preparation based on the existing personal Kafka Orde
 
 Start with [the complete PDF](Kafka_Order_Platform_Interview_Notes.pdf), or open one chapter below. Each chapter owns its detailed concepts; later references connect the workflow without redefining the topic.
 
+## Visual database walkthrough
+
+[Open the visual flow notes](notes/Visual_Order_Database_Flow.md) to see Angular, both databases' six tables, the outgoing order event and the returning inventory result.
+
+The guide includes a colour diagram and an [offline interactive HTML file](assets/order-flow/Kafka_Order_Platform_Interactive_Flow.html). Download the HTML using GitHub's **Download raw file** button, open it in Chrome or Edge, choose **step 0**, then press **Agla**. The diagram uses a single illustrative order.
+
 ## Chapter index
 
 | # | Topic | Read | Download |
@@ -52,3 +58,4 @@ Each chapter received three review passes: source accuracy, interview wording/co
 Source: [alexsaifee786-jpg/kafka-order-platform](https://github.com/alexsaifee786-jpg/kafka-order-platform), branch `main`.
 
 Verified source revision: [`2bad80e88cf7`](https://github.com/alexsaifee786-jpg/kafka-order-platform/commit/2bad80e88cf7b0f7b4dd77359287b04ef6403537). Reviewed 29 September 2026.
+
