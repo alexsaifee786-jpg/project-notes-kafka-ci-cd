@@ -35,3 +35,11 @@ Added an illustrated guide, a standalone interactive HTML replay, and PNG/SVG sn
 - The seven diagram states and previous/next controls were checked with a DOM harness at widths 1024, 736, 375 and 320. SVG snapshots were rendered and visually inspected.
 - The standalone file contains its required styles and scripts. This review did not run a new backend request or a full browser end-to-end test.
 
+
+## Interactive access fix · 16 October 2026
+
+- Added a visible **Open interactive flow** button to the README and visual guide; clicking the diagram also opens the hosted replay.
+- The page is hosted at [the database flow](https://aryan-kafka-flow-lab.alexsaifee786.chatgpt.site/database-flow.html) with the existing Site's owner-private audience preserved.
+- The hosted and downloadable versions now open at step 0 with **Agla** enabled.
+- The seven states, six table snapshots and previous/next controls passed DOM-harness checks at widths 1024, 736, 375 and 320. The Site build and deployment succeeded. A browser click test was unavailable in this environment.
+

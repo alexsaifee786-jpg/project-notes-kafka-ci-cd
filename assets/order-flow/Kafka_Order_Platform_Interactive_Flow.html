@@ -1565,17 +1565,17 @@ html&gt;body{padding:0}&lt;/style&gt;
   &lt;div class=&quot;controls&quot;&gt;
     &lt;label class=&quot;form-label step-label&quot; for=&quot;aryan-db-step&quot;&gt;Order 31 · step chuno
       &lt;select class=&quot;form-select&quot; id=&quot;aryan-db-step&quot;&gt;
-        &lt;option value=&quot;0&quot;&gt;0 · Request se pehle&lt;/option&gt;
+        &lt;option value=&quot;0&quot; selected&gt;0 · Request se pehle&lt;/option&gt;
         &lt;option value=&quot;1&quot;&gt;1 · Angular HTTP request&lt;/option&gt;
         &lt;option value=&quot;2&quot;&gt;2 · Order + outbox save; HTTP 202&lt;/option&gt;
         &lt;option value=&quot;3&quot;&gt;3 · Order publisher → Kafka&lt;/option&gt;
         &lt;option value=&quot;4&quot;&gt;4 · Inventory ki teen tables update&lt;/option&gt;
         &lt;option value=&quot;5&quot;&gt;5 · Inventory publisher → Kafka&lt;/option&gt;
-        &lt;option value=&quot;6&quot; selected&gt;6 · Order status update — poora flow&lt;/option&gt;
+        &lt;option value=&quot;6&quot;&gt;6 · Order status update — poora flow&lt;/option&gt;
       &lt;/select&gt;
     &lt;/label&gt;
-    &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;aryan-db-prev&quot;&gt;← Pichhla&lt;/button&gt;
-    &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; id=&quot;aryan-db-next&quot; disabled&gt;Agla →&lt;/button&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn&quot; id=&quot;aryan-db-prev&quot; disabled&gt;← Pichhla&lt;/button&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; id=&quot;aryan-db-next&quot;&gt;Agla →&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class=&quot;step-detail&quot; id=&quot;aryan-db-detail&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
   &lt;svg class=&quot;picture&quot; id=&quot;aryan-db-picture&quot; role=&quot;img&quot; aria-label=&quot;Angular at top, Order database three tables, Kafka in middle, Inventory database three tables; numbered arrows show the request and return result.&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;/svg&gt;
@@ -1591,7 +1591,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       const picker=root.querySelector(&#x27;#aryan-db-step&#x27;);
       const prev=root.querySelector(&#x27;#aryan-db-prev&#x27;),next=root.querySelector(&#x27;#aryan-db-next&#x27;);
       const ns=&#x27;http://www.w3.org/2000/svg&#x27;;
-      let step=6;
+      let step=0;
       const captions=[
         &#x27;0 · Stock 100 se shuru; Order 31 se related rows abhi nahi hain.&#x27;,
         &#x27;1 · Angular JSON body bhejta hai; Order Service naya Kafka event banayegi.&#x27;,

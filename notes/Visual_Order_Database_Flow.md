@@ -4,13 +4,17 @@
 
 ## Open the interactive flow
 
-[Open the interactive HTML file](../assets/order-flow/Kafka_Order_Platform_Interactive_Flow.html), click GitHub's **Download raw file** button (↓), then double-click the saved file to open it in Chrome or Edge. Choose **0 · Request se pehle** and press **Agla** to advance. **Pichhla** moves back.
+[![Open interactive flow](../assets/order-flow/open-interactive-flow.svg)](https://aryan-kafka-flow-lab.alexsaifee786.chatgpt.site/database-flow.html)
 
-The downloaded file works offline and does not send backend requests.
+Click the button, then press **Agla** to move from step 0 through the flow. **Pichhla** moves back; the dropdown jumps to any step. The page is private to your ChatGPT account.
+
+GitHub's image preview cannot run these controls. The button and the diagram below open the interactive page.
+
+**Offline copy:** [Download the HTML](https://github.com/alexsaifee786-jpg/project-notes-kafka-ci-cd/raw/refs/heads/main/assets/order-flow/Kafka_Order_Platform_Interactive_Flow.html), then double-click the saved file to open it in Chrome or Edge. It starts at step 0, works offline and does not send backend requests.
 
 ## One-page diagram
 
-![Angular at the top, three Order database tables, Kafka in the middle, and three Inventory database tables; blue arrows show the order event and green arrows show the reservation result.](../assets/order-flow/order-database-flow.png)
+[![Angular at the top, three Order database tables, Kafka in the middle, and three Inventory database tables; blue arrows show the order event and green arrows show the reservation result.](../assets/order-flow/order-database-flow.png)](https://aryan-kafka-flow-lab.alexsaifee786.chatgpt.site/database-flow.html)
 
 [PNG image](../assets/order-flow/order-database-flow.png) · [SVG for zooming](../assets/order-flow/order-database-flow.svg)
 
@@ -67,4 +71,5 @@ This is the sufficient-stock path. An insufficient-stock decision returns on `in
 - [Chapter 17 · Run a correlated local demo](17-Local_Demo_Interview_Walkthrough.md)
 
 Implementation reference: [Kafka Order Platform at revision 2bad80e88cf7](https://github.com/alexsaifee786-jpg/kafka-order-platform/tree/2bad80e88cf7b0f7b4dd77359287b04ef6403537). Supplement added 15 October 2026. The existing compiled PDF remains the September edition.
+
 

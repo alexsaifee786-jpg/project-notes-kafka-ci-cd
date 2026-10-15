@@ -8,9 +8,13 @@ Start with [the complete PDF](Kafka_Order_Platform_Interview_Notes.pdf), or open
 
 ## Visual database walkthrough
 
-[Open the visual flow notes](notes/Visual_Order_Database_Flow.md) to see Angular, both databases' six tables, the outgoing order event and the returning inventory result.
+[![Open interactive flow](assets/order-flow/open-interactive-flow.svg)](https://aryan-kafka-flow-lab.alexsaifee786.chatgpt.site/database-flow.html)
 
-The guide includes a colour diagram and an [offline interactive HTML file](assets/order-flow/Kafka_Order_Platform_Interactive_Flow.html). Download the HTML using GitHub's **Download raw file** button, open it in Chrome or Edge, choose **step 0**, then press **Agla**. The diagram uses a single illustrative order.
+Open the flow, then press **Agla** to watch both databases' six tables change. **Pichhla** moves back. The page starts at step 0 and uses an illustrative order.
+
+[Read the visual flow notes](notes/Visual_Order_Database_Flow.md) · [Download the offline HTML](https://github.com/alexsaifee786-jpg/project-notes-kafka-ci-cd/raw/refs/heads/main/assets/order-flow/Kafka_Order_Platform_Interactive_Flow.html)
+
+The interactive page is private to your ChatGPT account. GitHub displays the diagram preview as an image; the button opens the working controls.
 
 ## Chapter index
 
@@ -58,4 +62,5 @@ Each chapter received three review passes: source accuracy, interview wording/co
 Source: [alexsaifee786-jpg/kafka-order-platform](https://github.com/alexsaifee786-jpg/kafka-order-platform), branch `main`.
 
 Verified source revision: [`2bad80e88cf7`](https://github.com/alexsaifee786-jpg/kafka-order-platform/commit/2bad80e88cf7b0f7b4dd77359287b04ef6403537). Reviewed 29 September 2026.
+
 
