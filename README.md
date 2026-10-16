@@ -16,6 +16,16 @@ Open the flow, then press **Agla** to watch both databases' six tables change. *
 
 The interactive page is private to your ChatGPT account. GitHub displays the diagram preview as an image; the button opens the working controls.
 
+## Angular request flow: argument and parameter
+
+[![Open Angular request flow](assets/angular-order-flow/open-angular-flow.svg)](https://aryan-kafka-flow-lab.alexsaifee786.chatgpt.site/angular-order-flow.html)
+
+Starts at the **method call → parameter** view: `this.orderRequest` is the argument, `request` is the service parameter, and both refer to one frontend object. Use **Pichhla** for initial data and **Agla** for HTTP, callbacks, signals and `ngModel`.
+
+[Read the Angular flow guide](notes/Visual_Angular_Order_Request_Flow.md) · [Download the offline flow](https://github.com/alexsaifee786-jpg/project-notes-kafka-ci-cd/raw/refs/heads/main/assets/angular-order-flow/Angular_Order_Request_Flow.html)
+
+The interactive page uses the existing private Flow Lab. GitHub keeps its source, diagrams and guide in version history.
+
 ## Chapter index
 
 | # | Topic | Read | Download |
@@ -62,5 +72,6 @@ Each chapter received three review passes: source accuracy, interview wording/co
 Source: [alexsaifee786-jpg/kafka-order-platform](https://github.com/alexsaifee786-jpg/kafka-order-platform), branch `main`.
 
 Verified source revision: [`2bad80e88cf7`](https://github.com/alexsaifee786-jpg/kafka-order-platform/commit/2bad80e88cf7b0f7b4dd77359287b04ef6403537). Reviewed 29 September 2026.
+
 
 

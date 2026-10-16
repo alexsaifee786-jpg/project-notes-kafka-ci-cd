@@ -1,0 +1,373 @@
+<div id="aryan-angular-journey">
+  <style>
+    #aryan-angular-journey { color:var(--foreground); }
+    #aryan-angular-journey .journey-controls { display:flex; flex-wrap:wrap; align-items:end; gap:10px; margin:0 0 12px; }
+    #aryan-angular-journey .step-field { flex:1; min-width:220px; }
+    #aryan-angular-journey .step-detail { margin:10px 0; }
+    #aryan-angular-journey .source-label { margin-top:14px; }
+    #aryan-angular-journey .source-code { white-space:pre-wrap; overflow-wrap:anywhere; margin:6px 0 14px; font-weight:400; }
+    #aryan-angular-journey .journey-picture { display:block; width:100%; height:auto; font-family:inherit; }
+    #aryan-angular-journey .journey-key { display:flex; flex-wrap:wrap; align-items:center; gap:8px 20px; margin:8px 0; }
+    #aryan-angular-journey .journey-key span { display:inline-flex; align-items:center; gap:7px; }
+    #aryan-angular-journey .journey-key i { display:inline-block; width:22px; height:3px; background:var(--viz-series-1); }
+    #aryan-angular-journey .journey-key .return-key { background:var(--viz-series-2); }
+    #aryan-angular-journey .journey-key .change-key { height:11px; background:var(--viz-series-3); opacity:.35; }
+  </style>
+  <h2>Order flow: call, argument, parameter aur response</h2>
+  <div class="journey-controls">
+    <div class="step-field">
+    <label class="form-label" for="aryan-journey-step">Ek-ek step</label>
+      <select class="form-select" id="aryan-journey-step">
+        <option value="0">1 · orderRequest object kahan banta hai?</option>
+        <option value="1">2 · User quantity 2 se 5 karta hai</option>
+        <option value="2">3 · Button click: Order.createOrder()</option>
+        <option value="3">4 · Object OrderApi ko milta hai</option>
+        <option value="4">5 · Service Observable return karti hai</option>
+        <option value="5">6 · subscribe(): HTTP request jaati hai</option>
+        <option value="6">7 · Backend ka text next(response) mein</option>
+        <option value="7">8 · Signals badle; page par result</option>
+        <option value="8">9 · Alternative: request fail ho</option>
+        <option value="9">10 · Ab ngModel: dono taraf value sync</option>
+        <option value="10">11 · #quatityInput: validation ki details</option>
+      </select>
+    </div>
+    <button type="button" class="btn" id="aryan-journey-prev" disabled>← Pichhla</button>
+    <button type="button" class="btn btn-primary" id="aryan-journey-next">Agla →</button>
+  </div>
+  <div id="aryan-journey-detail" class="step-detail" aria-live="polite"></div>
+  <div class="source-label text-small" id="aryan-journey-source"></div>
+  <pre class="source-code"><code id="aryan-journey-code"></code></pre>
+  <div class="journey-key text-small">
+    <span><i></i>Input / call / request</span>
+    <span><i class="return-key"></i>Value / response wapas</span>
+    <span><i class="change-key"></i>Is step ka active data</span>
+  </div>
+  <svg id="aryan-journey-picture" class="journey-picture" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Order HTML, Order component, OrderApi service aur Spring Boot ke beech data aur response ka flow."></svg>
+  <div class="text-small text-muted">O1 = ek hi JavaScript object ka diagram label · Sample quantity 5, orderId 31 · Backend call nahi hoti.</div>
+  <script>
+    (() => {
+      const root = document.getElementById('aryan-angular-journey');
+      const svg = root.querySelector('#aryan-journey-picture');
+      const picker = root.querySelector('#aryan-journey-step');
+      const prev = root.querySelector('#aryan-journey-prev');
+      const next = root.querySelector('#aryan-journey-next');
+      const ns = 'http://www.w3.org/2000/svg';
+      const response = 'Order accepted and queued for publishing, orderId=31';
+      const failure = 'Order request failed. Please try again.';
+      let step = 3;
+      const scenes = [
+        {
+          detail:'Order component bante hi object banta hai; CreateOrderReques interface uska type batata hai.',
+          file:'order.ts · Order class ki property',
+          code:`protected orderRequest: CreateOrderReques = {
+  productId: 1001,
+  quantity: 2,
+  amount: 500
+};`
+        },
+        {
+          detail:'Quantity input mein 5 type hua; order.ts ke usi object ki quantity ab 5 hai.',
+          file:'order.html · value binding',
+          code:`<input type="number"
+  [(ngModel)]="orderRequest.quantity">`
+        },
+        {
+          detail:'Click Order component ka method chalata hai: purane messages clear, loading true.',
+          file:'order.html se order.ts · click handler',
+          code:`<!-- order.html -->
+<button (click)="createOrder()">Create Order</button>
+
+// order.ts ke createOrder() ke andar
+this.responseMessage.set('');
+this.errorMessage.set('');
+this.isLoading.set(true);`
+        },
+        {
+          detail:'CALL mein this.orderRequest bheja; DEFINITION ka request parameter usi object O1 ko refer karta hai.',
+          file:'order.ts: CALL · order-api.ts: DEFINITION · dono classes mein alag createOrder() methods',
+          code:`// CALL in order.ts: argument = this.orderRequest
+this.orderApi.createOrder(this.orderRequest)
+
+// DEFINITION in order-api.ts: parameter = request
+createOrder(request: CreateOrderReques): Observable<string>`
+        },
+        {
+          detail:'http.post() Observable banata hai; return se wahi Observable component ko milta hai.',
+          file:'order-api.ts · service method',
+          code:`return this.http.post(
+  'http://localhost:8080/api/orders',
+  request,
+  { responseType: 'text' }
+);`
+        },
+        {
+          detail:'Us Observable par subscribe() lagne par HTTP request bheji jaati hai.',
+          file:'order.ts · service ke returned Observable par subscription',
+          code:`this.orderApi.createOrder(this.orderRequest).subscribe({
+  next: response => { /* response aane par */ },
+  error: error => { /* request fail hone par */ }
+});`
+        },
+        {
+          detail:'Backend ka response body string hai; wahi value next callback ke response parameter mein aati hai.',
+          file:'order.ts · success callback ka parameter',
+          code:`next: response => {
+  console.log('Response:', response);
+  this.responseMessage.set(response);
+  this.isLoading.set(false);
+}`
+        },
+        {
+          detail:'responseMessage signal mein text save hua; template use padhkar page update karta hai.',
+          file:'order.ts → order.html · state se display',
+          code:`// order.ts
+this.responseMessage.set(response);
+this.isLoading.set(false);
+
+<!-- order.html -->
+<p>{{ responseMessage() }}</p>`
+        },
+        {
+          detail:'Alternative outcome: failure par error callback message set karta hai aur loading false hoti hai.',
+          file:'order.ts · error callback; order.html message dikhata hai',
+          code:`error: error => {
+  console.log('Order faild:', error);
+  this.errorMessage.set(
+    'Order request failed. Please try again.'
+  );
+  this.isLoading.set(false);
+}`
+        },
+        {
+          detail:'NgModel directive input aur component ki property ki value dono taraf sync karti hai.',
+          file:'order.html · two-way binding; FormsModule se available',
+          code:`[(ngModel)]="orderRequest.quantity"
+
+<!-- Dono directions ko alag likhen to: -->
+[ngModel]="orderRequest.quantity"
+(ngModelChange)="orderRequest.quantity = $event"`
+        },
+        {
+          detail:'quatityInput local reference hai: isi input ke NgModel se value, invalid aur touched milte hain.',
+          file:'order.html · same input, value 0; focus chhod diya',
+          code:`<input type="number"
+  [(ngModel)]="orderRequest.quantity"
+  required min="1"
+  #quatityInput="ngModel">
+
+@if (quatityInput.invalid && quatityInput.touched) {
+  <p>Enter a quantity at least 1.</p>
+}`
+        }
+      ];
+      const C = {
+        fg:'var(--foreground)', muted:'var(--muted-foreground)',
+        border:'var(--border)', bg:'var(--background)',
+        go:'var(--viz-series-1)', back:'var(--viz-series-2)',
+        change:'var(--viz-series-3)'
+      };
+      function make(tag, attrs = {}, parent = svg) {
+        const e = document.createElementNS(ns, tag);
+        for (const [key, value] of Object.entries(attrs)) e.setAttribute(key, String(value));
+        parent.appendChild(e);
+        return e;
+      }
+      function text(value, x, y, options = {}) {
+        const e = make('text', {
+          x, y, fill:options.muted ? C.muted : C.fg,
+          'font-size':12, 'font-weight':options.bold ? 500 : 400,
+          'text-anchor':options.anchor || 'start'
+        }, options.parent || svg);
+        const lines = Array.isArray(value) ? value : [value];
+        lines.forEach((line, i) => {
+          const t = make('tspan', { x, dy:i ? 17 : 0 }, e);
+          t.textContent = line;
+        });
+        return e;
+      }
+      function wrap(value, width) {
+        if(String(value).includes('\n')) return String(value).split('\n').flatMap(line=>wrap(line,width));
+        const capacity = Math.max(12, Math.floor(width / 7.25));
+        let remaining = String(value);
+        const lines = [];
+        while (remaining.length > capacity) {
+          let cut = remaining.lastIndexOf(' ', capacity);
+          if (cut < capacity * .4) cut = capacity;
+          lines.push(remaining.slice(0, cut));
+          remaining = remaining.slice(cut).trimStart();
+        }
+        lines.push(remaining);
+        return lines;
+      }
+      function node(id, x, y, w, title, role, rows, active) {
+        const roleLines = wrap(role, w - 28);
+        const rowLines = rows.map(row => ({ ...row, lines:wrap(row.value, w - 28) }));
+        const headerH = 47 + (roleLines.length-1)*17;
+        const h = headerH + rowLines.reduce((sum, row) => sum + row.lines.length * 17 + 5, 0);
+        const g = make('g', { 'data-node':id, role:'group', 'aria-label':title });
+        make('rect', { x, y, width:w, height:h, rx:5, fill:C.fg, 'fill-opacity':.025, stroke:C.border, 'stroke-width':1 }, g);
+        if (active) make('rect', { x:x+1, y:y+1, width:w-2, height:30, rx:4, fill:C.change, 'fill-opacity':.22 }, g);
+        text(title, x+14, y+20, { bold:true, parent:g });
+        text(roleLines, x+14, y+39, { muted:true, parent:g });
+        let rowY = y + headerH + 13;
+        for (const row of rowLines) {
+          if (row.changed) make('rect', {
+            x:x+7, y:rowY-13, width:w-14,
+            height:row.lines.length*17+3,
+            fill:C.change, 'fill-opacity':.2
+          }, g);
+          text(row.lines, x+14, rowY, { parent:g, muted:row.muted });
+          rowY += row.lines.length * 17 + 5;
+        }
+        return { x, y, w, h, bottom:y+h };
+      }
+      function arrow(x, y1, y2, kind, label, active, labelSide) {
+        const color = active ? C[kind] : C.border;
+        make('path', {
+          d:`M ${x} ${y1} V ${y2}`, fill:'none', stroke:color,
+          'stroke-width':active ? 2 : 1,
+          'marker-end':`url(#aryan-journey-arrow-${active ? kind : 'neutral'})`
+        });
+        text(label, x+(labelSide === 'left' ? -10 : 10), (y1+y2)/2-4, {
+          anchor:labelSide === 'left' ? 'end' : 'start', muted:!active
+        });
+      }
+      function connect(upper, lower, downLabel, upLabel, down, up) {
+        const left = upper.x + upper.w*.18;
+        const right = upper.x + upper.w*.82;
+        arrow(left, upper.bottom+5, lower.y-5, 'go', downLabel, down, 'right');
+        arrow(right, lower.y-5, upper.bottom+5, 'back', upLabel, up, 'left');
+      }
+      function markers() {
+        const defs = make('defs');
+        for (const [name, color] of [['go',C.go], ['back',C.back], ['change',C.change], ['neutral',C.border]]) {
+          const marker = make('marker', {
+            id:`aryan-journey-arrow-${name}`, viewBox:'0 0 10 10',
+            refX:9, refY:5, markerWidth:7, markerHeight:7, orient:'auto-start-reverse'
+          }, defs);
+          make('path', { d:'M 0 0 L 10 5 L 0 10 Z', fill:color }, marker);
+        }
+      }
+      function drawMethodMap(W) {
+        const x=W<500?32:58, w=W-2*x;
+        const call=node('caller',x,10,w,'CALL · order.ts · Order class','Andar wala method: Order.createOrder(): void',[
+          {value:'this.orderApi.createOrder(\n  this.orderRequest\n)',changed:true},
+          {value:'this.orderApi = OrderApi service ka instance'},
+          {value:'this.orderRequest = argument; object O1 ka reference',changed:true}
+        ],true);
+        const definition=node('callee',x,call.bottom+90,w,'DEFINITION · order-api.ts · OrderApi','Alag method: OrderApi.createOrder(...)',[
+          {value:'createOrder(\n  request: CreateOrderReques\n): Observable<string>',changed:true},
+          {value:'request = parameter; isi call mein object O1 ka reference',changed:true},
+          {value:'http.post() ka body argument: request'},
+          {value:'Return type: Observable<string>; response body string hoga'}
+        ],true);
+        connect(call,definition,['argument','receive'],['Observable','return'],true,false);
+        const data=node('shared-object',x,definition.bottom+76,w,'O1 · SIRF EK request object','Dono names ka connection: this.orderRequest aur request',[
+          {value:'{ productId: 1001, quantity: 5, amount: 500 }',changed:true},
+          {value:'Caller ka this.orderRequest aur parameter request isi object ko refer karte hain.'},
+          {value:'CreateOrderReques = interface; input object ka type'}
+        ],false);
+        const left=x-15,right=x+w+15;
+        for(const d of [
+          `M ${call.x} ${call.y+call.h*.68} H ${left} V ${data.y+data.h*.38} H ${data.x-2}`,
+          `M ${definition.x+definition.w} ${definition.y+definition.h*.54} H ${right} V ${data.y+data.h*.65} H ${data.x+data.w+2}`
+        ]) make('path',{d,fill:'none',stroke:C.change,'stroke-width':1.5,'marker-end':'url(#aryan-journey-arrow-change)'});
+        return data.bottom+12;
+      }
+      function drawBinding(W, x, w) {
+        const validation = step === 10;
+        const value = validation ? 0 : 5;
+        const html = node('html',x,10,w,'order.html · Quantity input','Template · browser mein dikhne wala input',[
+          { value:validation ? 'User ne 0 dala; input se focus hata diya.' : 'Pehle input mein 2; user ne ab 5 type kiya.', changed:true },
+          { value:'[(ngModel)]="orderRequest.quantity"' },
+          ...(validation ? [
+            { value:'#quatityInput="ngModel": isi input ki directive' },
+            { value:'quatityInput.value = 0' },
+            { value:'quatityInput.invalid = true   (min="1")', changed:true },
+            { value:'quatityInput.touched = true   (focus chhoda)' },
+            { value:'Page: Enter a quantity at least 1.' }
+          ] : [])
+        ],true);
+        const component = node('order',x,html.bottom+84,w,'order.ts · Order','Component class · object ki actual value',[
+          { value:`orderRequest.quantity = ${value}`, changed:true },
+          { value:'productId = 1001; amount = 500' }
+        ],true);
+        connect(html,component,['user input',validation?'0':'5'],['initial value','2'],true,true);
+        return component.bottom+12;
+      }
+      function draw() {
+        const W = Math.max(280, Math.round(root.clientWidth || 736));
+        const x = W < 500 ? 8 : 32, w = W-2*x;
+        svg.replaceChildren();
+        markers();
+        make('title').textContent = scenes[step].detail;
+        let height;
+        if (step === 3) {
+          height = drawMethodMap(W);
+        } else if (step >= 9) {
+          height = drawBinding(W,x,w);
+        } else {
+          const q = step === 0 ? 2 : 5;
+          const loading = step >= 2 && step <= 6;
+          const success = step === 7;
+          const failed = step === 8;
+          const called = step >= 3;
+          const observed = step >= 4;
+          const sent = step >= 5;
+          const body = `{ productId: 1001, quantity: ${q}, amount: 500 }`;
+          const jsonBody = JSON.stringify({productId:1001,quantity:q,amount:500}).replace(/,/g,', ');
+          const html = node('html',x,10,w,'order.html · Page','Template · user ka input, click aur visible result',[
+            { value:`Quantity input: ${q}   |   Create Order: ${loading?'disabled':'enabled'}`, changed:step===1 || step===2 },
+            { value:loading?'Page: Placing order...':success?`Page: ${response}`:failed?`Page: ${failure}`:'Page par response message: abhi khaali', changed:success || failed }
+          ],step===1 || step===2 || success || failed);
+          const order = node('order',x,html.bottom+76,w,'order.ts · Order','Component class · data + click handler + callbacks',[
+            { value:`orderRequest (object O1) = ${body}`, changed:step===0 || step===1 },
+            { value:'Click handler: Order.createOrder(): void' },
+            { value:'CALL: this.orderApi.createOrder(this.orderRequest)', changed:step===2 || step===5 },
+            { value:`isLoading() = ${loading}`, changed:step===2 || success || failed },
+            { value:`responseMessage() = ${success?'"'+response+'"':'""'}`, changed:success },
+            { value:`errorMessage() = ${failed?'"'+failure+'"':'""'}`, changed:failed },
+            ...(step===6?[{value:`next(response): "${response}"`,changed:true}]:[])
+          ],[0,1,2,3,5,6,7,8].includes(step));
+          const service = node('service',x,order.bottom+76,w,'order-api.ts · OrderApi','Service class · HTTP call ka method',[
+            { value:'DEFINITION: createOrder(request: CreateOrderReques): Observable<string>' },
+            { value:called?'Parameter request = object O1 ka reference':'Definition mein parameter ka naam: request', changed:step===4 },
+            ...(called?[{value:`HTTP body mein request = ${body}`}]:[]),
+            { value:observed?'return: Observable<string>':'createOrder(request): Observable<string>', changed:step===4 },
+            { value:step===4?'HTTP: abhi send nahi; subscribe() ka step baaki':sent?'HTTP: subscription se request send hui':'HTTP: abhi send nahi', muted:!sent }
+          ],step===3 || step===4 || step===5);
+          const backend = node('backend',x,service.bottom+76,w,'Spring Boot · Order Service :8080','Backend · order accept karke text response deta hai',[
+            { value:'POST http://localhost:8080/api/orders' },
+            { value:sent?`${failed?'Request attempt JSON':'JSON body'}: ${jsonBody}`:'Request: abhi nahi aayi', changed:step===5 },
+            { value:failed?'Alternative: HTTP / network error':step>=6?`HTTP 202 body: "${response}"`:'Response: abhi nahi aaya', changed:step===6 || failed }
+          ],step===5 || step===6 || failed);
+          connect(html,order,['input / click'],['value / page'],step===1 || step===2,step===0 || success || failed);
+          connect(order,service,['argument','O1'],step===4?['Observable','return']:['response','next / error'],step===5,step===4 || step===6 || failed);
+          connect(service,backend,['POST + JSON'],['text / error'],step===5,step===6 || failed);
+          height = backend.bottom+12;
+        }
+        svg.setAttribute('viewBox',`0 0 ${W} ${height}`);
+        svg.setAttribute('width',W);
+        svg.setAttribute('height',height);
+        svg.setAttribute('data-step',step);
+      }
+      function update() {
+        picker.value = String(step);
+        prev.disabled = step === 0;
+        next.disabled = step === scenes.length-1;
+        root.querySelector('#aryan-journey-detail').textContent = scenes[step].detail;
+        root.querySelector('#aryan-journey-source').textContent = scenes[step].file;
+        root.querySelector('#aryan-journey-code').textContent = scenes[step].code;
+        draw();
+      }
+      prev.addEventListener('click',() => { step=Math.max(0,step-1); update(); });
+      next.addEventListener('click',() => { step=Math.min(scenes.length-1,step+1); update(); });
+      picker.addEventListener('change',() => {
+        const value=Number(picker.value);
+        if (Number.isInteger(value) && value>=0 && value<scenes.length) { step=value; update(); }
+      });
+      new ResizeObserver(draw).observe(root);
+      update();
+    })();
+  </script>
+</div>
